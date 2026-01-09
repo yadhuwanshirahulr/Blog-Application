@@ -1,14 +1,22 @@
 package com.yadhuwanshirahul.blog.application.PayLoad;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor
 public class UserDto {
 	private int id;
+	@NotEmpty
 	private String username;
+	@NotEmpty
 	private String password;
+	@Email(message = "Please enter a valid email address")
 	private String email;
+	@NotEmpty
+	@Size(min = 4, max = 50, message = "Please enter about between 4 to 50 characters")
 	private String about;
 
 	public int getId() {
