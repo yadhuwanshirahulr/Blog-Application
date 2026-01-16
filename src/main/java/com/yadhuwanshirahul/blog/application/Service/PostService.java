@@ -9,7 +9,7 @@ public interface PostService {
     PostDTO createPost(PostDTO post,Integer userId, Integer categoryId);
     PostDTO updatePost(PostDTO post, Integer postId);
     void deletePost(Integer postId);
-    List<PostDTO> getAllPost();
+    List<PostDTO> getAllPost(Integer pagesize,Integer pageNo);
     PostDTO getPostById(Integer postId);
     List<PostDTO> getPostByCategory(Integer categoryId);
     List<PostDTO> getPostByUser(Integer userId);

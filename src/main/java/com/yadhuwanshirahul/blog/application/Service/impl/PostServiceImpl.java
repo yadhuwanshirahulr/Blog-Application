@@ -11,6 +11,9 @@ import com.yadhuwanshirahul.blog.application.Reposirtory.UserRepo;
 import com.yadhuwanshirahul.blog.application.Service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,11 +70,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost() {
-        List<Post> posts = postRepo.findAll();
+    public List<PostDTO> getAllPost(Integer pagesize,Integer pageNo) {
+       Pageable page = PageRequest.of(pageNo,pagesize);
+        Page<Post> post = postRepo.findAll(page);
+        List<Post> posts =post.getContent();
         List<PostDTO> response = new ArrayList<>();
-        for(Post post:posts){
-            response.add(mapToDto(post));
+        for(Post p:posts){
+            response.add(mapToDto(p));
         }
         return response;
     }

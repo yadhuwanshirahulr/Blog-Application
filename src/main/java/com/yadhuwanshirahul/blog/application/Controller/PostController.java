@@ -16,8 +16,8 @@ public class PostController {
     @Autowired
     PostService postService;
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPost(){
-        List<PostDTO> posts = postService.getAllPost();
+    public ResponseEntity<List<PostDTO>> getAllPost(@RequestParam Integer pagesize, @RequestParam Integer pageNo){
+        List<PostDTO> posts = postService.getAllPost(pagesize,pageNo);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
     @GetMapping("{postId}")
