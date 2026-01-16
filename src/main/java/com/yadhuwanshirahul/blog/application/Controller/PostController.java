@@ -2,6 +2,7 @@ package com.yadhuwanshirahul.blog.application.Controller;
 
 import com.yadhuwanshirahul.blog.application.Model.Post;
 import com.yadhuwanshirahul.blog.application.PayLoad.PostDTO;
+import com.yadhuwanshirahul.blog.application.PayLoad.PostResponse;
 import com.yadhuwanshirahul.blog.application.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ public class PostController {
     @Autowired
     PostService postService;
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPost(@RequestParam Integer pagesize, @RequestParam Integer pageNo){
-        List<PostDTO> posts = postService.getAllPost(pagesize,pageNo);
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+    public ResponseEntity<PostResponse> getAllPost(@RequestParam Integer pagesize, @RequestParam Integer pageNo){
+        PostResponse response = postService.getAllPost(pagesize,pageNo);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("{postId}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Integer postId){

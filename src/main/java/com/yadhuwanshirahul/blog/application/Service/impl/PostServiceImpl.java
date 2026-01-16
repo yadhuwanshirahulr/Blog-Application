@@ -5,6 +5,7 @@ import com.yadhuwanshirahul.blog.application.Model.Category;
 import com.yadhuwanshirahul.blog.application.Model.Post;
 import com.yadhuwanshirahul.blog.application.Model.User;
 import com.yadhuwanshirahul.blog.application.PayLoad.PostDTO;
+import com.yadhuwanshirahul.blog.application.PayLoad.PostResponse;
 import com.yadhuwanshirahul.blog.application.Reposirtory.CategoryRepo;
 import com.yadhuwanshirahul.blog.application.Reposirtory.PostRepo;
 import com.yadhuwanshirahul.blog.application.Reposirtory.UserRepo;
@@ -70,14 +71,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getAllPost(Integer pagesize,Integer pageNo) {
+    public PostResponse getAllPost(Integer pagesize, Integer pageNo) {
        Pageable page = PageRequest.of(pageNo,pagesize);
         Page<Post> post = postRepo.findAll(page);
         List<Post> posts =post.getContent();
-        List<PostDTO> response = new ArrayList<>();
+        List<PostDTO> postDTOS = new ArrayList<>();
         for(Post p:posts){
-            response.add(mapToDto(p));
+            postDTOS.add(mapToDto(p));
         }
+        PostResponse response = new PostResponse();
+        response.setPost(postDTOS);
+        response.setPageNo(post.getNumber());
+        response.setTotalElement(post.getTotalElements());
+        response.setPageSize(post.getSize());
+        response.setTotalPage(post.getTotalPages());
+        response.setLast(post.isLast());
         return response;
     }
 
