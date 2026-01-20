@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,8 +72,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostResponse getAllPost(Integer pagesize, Integer pageNo) {
-       Pageable page = PageRequest.of(pageNo,pagesize);
+    public PostResponse getAllPost(Integer pagesize, Integer pageNo,String sortBy, String sortIn) {
+        Sort sort = null;
+        if(sortIn.equals("asc")){
+            sort = Sort.by(sortBy).ascending();
+        }
+        else{
+            sort = Sort.by(sortBy).descending();
+        }
+       Pageable page = PageRequest.of(pageNo,pagesize,sort);
         Page<Post> post = postRepo.findAll(page);
         List<Post> posts =post.getContent();
         List<PostDTO> postDTOS = new ArrayList<>();
@@ -126,6 +134,16 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
         return response;
     }
+
+    @Override
+    public List<PostDTO> getAllPostByTitle(String title) {
+        List<Post> posts = postRepo.findByTitleContaining(title);
+        List<PostDTO> response = posts.stream()
+                .map(post->mapToDto(post))
+                .collect(Collectors.toList());
+        return response;
+    }
+
     private Post mapToPost(PostDTO postDTO){
         Post post = modelMapper.map(postDTO,Post.class);
         return post;

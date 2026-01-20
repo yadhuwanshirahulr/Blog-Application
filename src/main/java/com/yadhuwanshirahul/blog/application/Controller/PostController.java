@@ -1,5 +1,6 @@
 package com.yadhuwanshirahul.blog.application.Controller;
 
+import com.yadhuwanshirahul.blog.application.Constants.BlogConstants;
 import com.yadhuwanshirahul.blog.application.Model.Post;
 import com.yadhuwanshirahul.blog.application.PayLoad.PostDTO;
 import com.yadhuwanshirahul.blog.application.PayLoad.PostResponse;
@@ -17,8 +18,9 @@ public class PostController {
     @Autowired
     PostService postService;
     @GetMapping
-    public ResponseEntity<PostResponse> getAllPost(@RequestParam Integer pagesize, @RequestParam Integer pageNo){
-        PostResponse response = postService.getAllPost(pagesize,pageNo);
+    public ResponseEntity<PostResponse> getAllPost(@RequestParam(defaultValue = BlogConstants.PAGE_SIZE) Integer pagesize, @RequestParam (defaultValue = BlogConstants.PAGE_NUMBER)Integer pageNo
+    , @RequestParam(defaultValue = BlogConstants.SORT_BY) String sortBy, @RequestParam(defaultValue = BlogConstants.SORT_IN) String sortIn){
+        PostResponse response = postService.getAllPost(pagesize,pageNo,sortBy,sortIn);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("{postId}")
@@ -49,6 +51,11 @@ public class PostController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<PostDTO>> getPostByUser(@PathVariable Integer userId){
         List<PostDTO> response = postService.getPostByUser(userId);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<PostDTO>> getPostByTitle(@PathVariable String title){
+        List<PostDTO> response = postService.getAllPostByTitle(title);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
