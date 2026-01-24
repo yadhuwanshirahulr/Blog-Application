@@ -1,6 +1,9 @@
 package com.yadhuwanshirahul.blog.application.PayLoad;
 
+import com.yadhuwanshirahul.blog.application.Model.Comment;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDTO {
     private String title;
@@ -9,6 +12,15 @@ public class PostDTO {
     private CategoryDTO category;
     private UserDto user;
     private LocalDateTime addedDate;
+    private List<CommentDTO> comments;
+
+    public List<CommentDTO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDTO> comments) {
+        this.comments = comments;
+    }
 
     public String getImageName() {
         return imageName;

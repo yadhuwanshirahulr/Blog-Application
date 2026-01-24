@@ -1,9 +1,13 @@
 package com.yadhuwanshirahul.blog.application.Model;
 
+import com.yadhuwanshirahul.blog.application.PayLoad.CommentDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "posts")
 public class Post {
@@ -19,6 +23,21 @@ public class Post {
     private Category category;
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setAddedDate(LocalDateTime addedDate) {
+        this.addedDate = addedDate;
+    }
 
     public Category getCategory() {
         return category;
