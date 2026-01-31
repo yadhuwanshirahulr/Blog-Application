@@ -10,6 +10,8 @@ import com.yadhuwanshirahul.blog.application.Reposirtory.UserRepo;
 import com.yadhuwanshirahul.blog.application.Service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UserRepo userRepo;
-
+	
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 	@Autowired
 	ModelMapper modelMapper;
 
 	@Override
 	public UserDto addUser(UserDto user) {
 		User user1 = dtoToUser(user);
+		user1.setPassword(encoder.encode(user1.getPassword()));
 		userRepo.save(user1);
 		return user;
 	}
@@ -35,7 +39,7 @@ public class UserServiceImpl implements UserService{
 				"id",
 				String.valueOf(userId)));
 		dbUser.setUsername(user.getUsername());
-		dbUser.setPassword(user.getPassword());
+		dbUser.setPassword(encoder.encode(user.getPassword()));
 		dbUser.setEmail(user.getEmail());
 		dbUser.setAbout(user.getAbout());
 		user.setId(dbUser.getId());

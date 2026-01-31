@@ -26,6 +26,16 @@ public class User {
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
 
+	private String role;
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public List<Post> getPosts() {
 		return posts;
 	}

@@ -19,6 +19,16 @@ public class UserDto {
 	@Size(min = 4, max = 50, message = "Please enter about between 4 to 50 characters")
 	private String about;
 
+	private String role;
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public int getId() {
 		return id;
 	}
